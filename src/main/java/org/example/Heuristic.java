@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Heuristic {
-    // Método con nombre propio
-    public static Result calcularGreedyDistance(int[] xs, int[] ps) {
-        // implementación
+    // Method with custom name
+    public static Result calculateGreedyDistance(int[] positions, int[] populations) {
+        // implementation
         return new Result(0, new ArrayList<>());
     }
 
-    public static Result calcularGreedyValue(int[] xs, int[] ps) {
-        // implementación
+    public static Result calculateGreedyValue(int[] positions, int[] populations) {
+        // implementation
         return new Result(0, new ArrayList<>());
     }
 

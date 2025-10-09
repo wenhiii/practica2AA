@@ -6,13 +6,14 @@ import java.util.List;
 
 public class Optimal {
 
-    // Encuentra el índice j < i más grande con xs[j] < xs[i] - 5 (no se pueden acercar más de 5 km)
-    private static int findPreviousCompatible(int[] xs, int i) {
-        int targetStrict = xs[i] - 5;
+    // Finds the largest index j < i such that positions[j] < positions[i] - 5
+    // (hospitals cannot be closer than 5 km)
+    private static int findPreviousCompatible(int[] positions, int i) {
+        int targetStrict = positions[i] - 5;
         int lo = 0, hi = i - 1, ans = -1;
         while (lo <= hi) {
             int mid = (lo + hi) >>> 1;
-            if (xs[mid] < targetStrict) {
+            if (positions[mid] < targetStrict) {
                 ans = mid;
                 lo = mid + 1;
             } else {
@@ -22,46 +23,46 @@ public class Optimal {
         return ans;
     }
 
-    // Devuelve el total óptimo y qué hospitales se construyen
-    public static Result calcularOptimo(int[] xs, int[] ps) {
-        int n = xs.length;
+    // Returns the optimal total and which hospitals are built
+    public static Result calculateOptimal(int[] positions, int[] populations) {
+        int n = positions.length;
         if (n == 0) return new Result(0, new ArrayList<>());
 
         int[] prev = new int[n];
         for (int i = 0; i < n; i++) {
-            prev[i] = findPreviousCompatible(xs, i);
+            prev[i] = findPreviousCompatible(positions, i);
         }
 
         int[] dp = new int[n];
-        dp[0] = ps[0];
+        dp[0] = populations[0];
 
         for (int i = 1; i < n; i++) {
-            int sin = dp[i - 1];
-            int con = ps[i] + (prev[i] >= 0 ? dp[prev[i]] : 0);
-            dp[i] = Math.max(sin, con);
+            int withoutCurrent = dp[i - 1];
+            int withCurrent = populations[i] + (prev[i] >= 0 ? dp[prev[i]] : 0);
+            dp[i] = Math.max(withoutCurrent, withCurrent);
         }
 
-        // Reconstruir solución
-        List<Integer> elegidos = new ArrayList<>();
+        // Reconstruct solution
+        List<Integer> chosen = new ArrayList<>();
         int i = n - 1;
         while (i >= 0) {
             if (i == 0) {
-                if (dp[i] == ps[i]) elegidos.add(i);
+                if (dp[i] == populations[i]) chosen.add(i);
                 break;
             }
             if (dp[i] == dp[i - 1]) {
                 i--;
             } else {
-                elegidos.add(i);
+                chosen.add(i);
                 i = prev[i];
             }
         }
 
-        Collections.reverse(elegidos);
-        return new Result(dp[n - 1], elegidos);
+        Collections.reverse(chosen);
+        return new Result(dp[n - 1], chosen);
     }
 
-    // Clase interna para devolver resultado completo
+    // Inner class to return the complete result
     public static class Result {
         public final int total;
         public final List<Integer> indices;

@@ -3,7 +3,7 @@ package org.example;
 public class Main {
 
     public static void main(String[] args) {
-        int[][] ejemplos_xs = {
+        int[][] examplePositions = {
                 {6, 7, 12, 14},
                 {0, 6, 12, 18},
                 {1, 3, 5, 7, 9},
@@ -11,7 +11,7 @@ public class Main {
                 {0, 2, 6, 9, 15, 16, 22}
         };
 
-        int[][] ejemplos_ps = {
+        int[][] examplePopulations = {
                 {5, 6, 5, 1},
                 {4, 5, 7, 4},
                 {2, 3, 4, 5, 6},
@@ -19,19 +19,19 @@ public class Main {
                 {1, 8, 5, 2, 9, 3, 4}
         };
 
-        for (int t = 0; t < ejemplos_xs.length; t++) {
-            int[] xs = ejemplos_xs[t];
-            int[] ps = ejemplos_ps[t];
+        for (int t = 0; t < examplePositions.length; t++) {
+            int[] positions = examplePositions[t];
+            int[] populations = examplePopulations[t];
 
-            Optimal.Result r = Optimal.calcularOptimo(xs, ps);
+            Optimal.Result result = Optimal.calculateOptimal(positions, populations);
 
-            System.out.println("🧩 Ejemplo " + (t + 1));
-            System.out.println("Posiciones posibles: " + java.util.Arrays.toString(xs));
-            System.out.println("Poblaciones (ps):    " + java.util.Arrays.toString(ps));
-            System.out.println("➡️  Total óptimo: " + r.total);
-            System.out.print("🏥 Hospitales seleccionados (posiciones): ");
-            for (int idx : r.indices) System.out.print(xs[idx] + " ");
-            System.out.println("\nÍndices seleccionados: " + r.indices);
+            System.out.println("🧩 Example " + (t + 1));
+            System.out.println("Possible positions: " + java.util.Arrays.toString(positions));
+            System.out.println("Populations:        " + java.util.Arrays.toString(populations));
+            System.out.println("➡️  Optimal total: " + result.total);
+            System.out.print("🏥 Selected hospitals (positions): ");
+            for (int idx : result.indices) System.out.print(positions[idx] + " ");
+            System.out.println("\nSelected indices: " + result.indices);
             System.out.println("-----------------------------\n");
         }
     }
