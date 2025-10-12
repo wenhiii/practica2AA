@@ -19,7 +19,8 @@ public class HospitalAlgorithm {
         for (int i = 1; i < n; i++) {
             // Find the largest j < i such that positions[j] < positions[i] - 5
             int lo = 0, hi = i - 1, prev = -1;
-            int target = xs[i] - 5; // Minimum position that a previous hospital can have (at least 5 units
+            int target = xs[i] - 5; // Minimum position that 
+            //a previous hospital can have (at least 5 units
             // apart)
             while (lo <= hi) {
                 int mid = (lo + hi) / 2;
@@ -70,6 +71,15 @@ public class HospitalAlgorithm {
         return total;
     }
 
+    /**
+     * Heuristic selection by distance from max: Picks firstly the highest value hospital,
+     * and then picks hospital from the max value hospital.
+     * Returns total population served.
+     *
+     * @param xs positions of the hospitals
+     * @param ps population served by each hospital
+     * @return total population served by the selected hospitals
+     */
     public static int calculateGreedyFromMax(int[] xs, int[] ps) {
         int n = xs.length;
 
@@ -110,7 +120,7 @@ public class HospitalAlgorithm {
      * @param ps population served by each hospital
      * @return total population served by the selected hospitals
      */
-    public static int sortIndicesByValueDescending(int[] xs, int[] ps) {
+    public static int sortIndexByValueDescendent(int[] xs, int[] ps) {
         int[] sortedIndices = sortIndices(ps);
         boolean[] xsOccupied = new boolean[xs.length];
         int maxCapacity = ps[sortedIndices[0]];

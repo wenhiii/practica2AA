@@ -28,7 +28,7 @@ public class Main {
             int optimalTotal = HospitalAlgorithm.calculateOptimalDP(positions, populations);
             int greedyTotal = HospitalAlgorithm.calculateGreedyDistance(positions, populations);
             int greedyTotal2 = HospitalAlgorithm.calculateGreedyFromMax(positions, populations);
-            int greedyTotal3 = HospitalAlgorithm.sortIndicesByValueDescending(positions, populations);
+            int greedyTotal3 = HospitalAlgorithm.sortIndexByValueDescendent(positions, populations);
 
             System.out.println("=== Example " + (t + 1) + " ===");
             System.out.println("Positions: " + Arrays.toString(positions));
