@@ -3,50 +3,6 @@ package org.example;
 public class HospitalAlgorithm {
 
     /**
-     * Optimal selection using DP: choose hospitals to maximize total population
-     * served, ensuring any two chosen hospitals are >5 units apart.
-     *
-     * @param xs positions of the hospitals
-     * @param ps population served by each hospital
-     * @return total population served by the selected hospitals
-     */
-    public static int calculateOptimalDP(int[] xs, int[] ps) {
-        int n = xs.length;
-        int[] dp = new int[n];
-
-        dp[0] = ps[0];
-
-        for (int i = 1; i < n; i++) {
-            // Find the largest j < i such that positions[j] < positions[i] - 5
-            int lo = 0, hi = i - 1, prev = -1;
-            int target = xs[i] - 5; // Minimum position that 
-            //a previous hospital can have (at least 5 units
-            // apart)
-            while (lo <= hi) {
-                int mid = (lo + hi) / 2;
-                if (xs[mid] < target) {
-                    prev = mid;
-                    lo = mid + 1;
-                } else {
-                    hi = mid - 1;
-                }
-            }
-
-            int withCurrent;
-            if (prev >= 0) {
-                withCurrent = ps[i] + dp[prev];
-            } else {
-                withCurrent = ps[i];
-            }
-
-            int withoutCurrent = dp[i - 1];
-            dp[i] = Math.max(withCurrent, withoutCurrent);
-        }
-
-        return dp[n - 1];
-    }
-
-    /**
      * Greedy by distance: pick a hospital if it is strictly more than 5 units
      * away from the previously chosen hospital. Returns the total population
      * served.
@@ -72,7 +28,8 @@ public class HospitalAlgorithm {
     }
 
     /**
-     * Heuristic selection by distance from max: Picks firstly the highest value hospital,
+     * Heuristic selection by distance from max: Picks firstly the highest value
+     * hospital,
      * and then picks hospital from the max value hospital.
      * Returns total population served.
      *
@@ -164,4 +121,36 @@ public class HospitalAlgorithm {
         return sortedIndices;
     }
 
+    /**
+     * Optimal selection using backtracking: choose hospitals to maximize total
+     * population
+     * served, ensuring any two chosen hospitals are >5 units apart.
+     *
+     * @param xs positions of the hospitals
+     * @param ps population served by each hospital
+     * @return total population served by the selected hospitals
+     */
+    public static int optimalBacktrack(int[] xs, int[] ps) {
+        int n = xs.length;
+        int[] best = new int[1];
+        backtrack(0, -1, 0, best, xs, ps);
+        return best[0];
+    }
+
+    // backtrack(i, lastIncludedIndex, currentSum, best, xs, ps)
+    private static void backtrack(int i, int lastIncludedIndex, int currentSum, int[] best, int[] xs, int[] ps) {
+        int n = xs.length;
+
+        if (i == n) {
+            if (currentSum > best[0])
+                best[0] = currentSum;
+            return;
+        }
+
+        backtrack(i + 1, lastIncludedIndex, currentSum, best, xs, ps);
+
+        if ((lastIncludedIndex == -1) || (xs[lastIncludedIndex] < xs[i] - 5)) {
+            backtrack(i + 1, i, currentSum + ps[i], best, xs, ps);
+        }
+    }
 }
