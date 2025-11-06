@@ -131,13 +131,11 @@ public class HospitalAlgorithm {
      * @return total population served by the selected hospitals
      */
     public static int optimalBacktrack(int[] xs, int[] ps) {
-        int n = xs.length;
         int[] best = new int[1];
         backtrack(0, -1, 0, best, xs, ps);
         return best[0];
     }
 
-    // backtrack(i, lastIncludedIndex, currentSum, best, xs, ps)
     private static void backtrack(int i, int lastIncludedIndex, int currentSum, int[] best, int[] xs, int[] ps) {
         int n = xs.length;
 
@@ -153,4 +151,27 @@ public class HospitalAlgorithm {
             backtrack(i + 1, i, currentSum + ps[i], best, xs, ps);
         }
     }
+
+    public static int optimalBacktrack2(int[] xs, int[] ps) {
+        int result = backtrack2(0, -1, 0, xs, ps);
+        return result;
+    }
+
+    private static int backtrack2(int i, int lastIncludedIndex, int currentSum, int[] xs, int[] ps) {
+        int n = xs.length;
+
+        if (i == n) {
+            return currentSum;
+        } else {
+            int best = backtrack2(i + 1, lastIncludedIndex, currentSum, xs, ps);
+
+            if ((lastIncludedIndex == -1) || (xs[lastIncludedIndex] < xs[i] - 5)) {
+                int included = backtrack2(i + 1, i, currentSum + ps[i], xs, ps);
+                best = Math.max(included, best);
+            }
+            return best;
+        }
+
+    }
+
 }
