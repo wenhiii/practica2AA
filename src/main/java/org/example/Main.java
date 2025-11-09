@@ -25,7 +25,9 @@ public class Main {
             int[] positions = examplePositions[t];
             int[] populations = examplePopulations[t];
 
-            int optimalTotal = HospitalAlgorithm.calculateOptimalDP(positions, populations);
+            int optimalTotal = HospitalAlgorithm.optimalBacktrack(positions, positions);
+            int optimalTotal2 = HospitalAlgorithm.optimalBacktrack2(positions, positions);
+            int optimalTotal3 = HospitalAlgorithm.optimalBacktrackWithPruning(positions, positions);
             int greedyTotal = HospitalAlgorithm.calculateGreedyDistance(positions, populations);
             int greedyTotal2 = HospitalAlgorithm.calculateGreedyFromMax(positions, populations);
             int greedyTotal3 = HospitalAlgorithm.sortIndexByValueDescendent(positions, populations);
@@ -34,6 +36,8 @@ public class Main {
             System.out.println("Positions: " + Arrays.toString(positions));
             System.out.println("Populations: " + Arrays.toString(populations));
             System.out.println(" -> Optimal total: " + optimalTotal);
+            System.out.println(" -> Optimal total2: " + optimalTotal2);
+            System.out.println(" -> Optimal total con poda: " + optimalTotal3);
             System.out.println(" -> GreedyFromDistance total:  " + greedyTotal);
             System.out.println(" -> GreedyFromMax total:  " + greedyTotal2);
             System.out.println(" -> GreedyByHospitalValue total:  " + greedyTotal3);

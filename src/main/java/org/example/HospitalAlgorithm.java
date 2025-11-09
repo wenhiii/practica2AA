@@ -174,4 +174,38 @@ public class HospitalAlgorithm {
 
     }
 
+    public static int optimalBacktrackWithPruning(int[] xs, int[] ps) {
+        int n = xs.length;
+        int[] suffixSum = new int[n + 1];
+        for (int i = n - 1; i >= 0; i--)
+            suffixSum[i] = suffixSum[i + 1] + ps[i];
+
+        return backtrackWithPruning(0, -1, 0, 0, xs, ps, suffixSum);
+    }
+
+    private static int backtrackWithPruning(int i, int lastIncludedIndex, int currentSum, int bestSoFar, int[] xs,
+            int[] ps,
+            int[] suffixSum) {
+
+        int n = xs.length;
+
+        if (i == n) {
+            return currentSum;
+        } else {
+            if (currentSum + suffixSum[i] <= bestSoFar) {
+                return bestSoFar;
+            }
+
+            int best = backtrackWithPruning(i + 1, lastIncludedIndex, currentSum, bestSoFar, xs, ps, suffixSum);
+
+            if (lastIncludedIndex == -1 || xs[lastIncludedIndex] < xs[i] - 5) {
+                int included = backtrackWithPruning(i + 1, i, currentSum + ps[i], Math.max(best, bestSoFar), xs, ps, suffixSum);
+                best = Math.max(best, included);
+            }
+
+            return best;
+        }
+
+    }
+
 }
